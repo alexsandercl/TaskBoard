@@ -1,18 +1,18 @@
-// ---------- Estado ----------
+
 const CATEGORIAS = ["Estudos", "Trabalho", "Pessoal"];
 const NOMES_PRIORIDADE = { 1: "Baixa", 2: "Média", 3: "Alta" };
 
 let tarefas = JSON.parse(localStorage.getItem("tarefas")) || [];
 
-// Compatibilidade com tarefas salvas na versão anterior
+
 tarefas.forEach(t => {
   t.obs = t.obs || "";
   t.subtarefas = t.subtarefas || [];
   t.criadaEm = t.criadaEm || t.id;
 });
 
-const abertas = new Set(); // tarefas com os detalhes abertos
-let ultimaAcao = null;     // guarda o que foi excluído, para desfazer
+const abertas = new Set(); 
+let ultimaAcao = null;     
 
 // ---------- Elementos ----------
 const formTarefa = document.getElementById("form-tarefa");
@@ -25,12 +25,12 @@ const ordenarSel = document.getElementById("ordenar");
 const modalEditar = new bootstrap.Modal(document.getElementById("modal-editar"));
 const toast = new bootstrap.Toast(document.getElementById("toast"));
 
-// ---------- Funções ----------
+
 function salvar() {
   localStorage.setItem("tarefas", JSON.stringify(tarefas));
 }
 
-// Evita que HTML digitado pelo usuário seja interpretado
+
 function esc(texto) {
   const div = document.createElement("div");
   div.textContent = texto;
@@ -83,7 +83,7 @@ function atualizarResumo() {
   barra.style.width = pct + "%";
   barra.textContent = pct + "%";
 
-  // Pendentes por categoria
+
   document.getElementById("por-categoria").innerHTML = CATEGORIAS.map(c => {
     const n = tarefas.filter(t => t.categoria === c && !t.feita).length;
     return `<span class="badge etiqueta">${c}: ${n} pendente(s)</span>`;
@@ -156,7 +156,7 @@ function mostrar() {
   atualizarResumo();
 }
 
-// Remove tarefas e mostra o aviso com opção de desfazer
+
 function removerTarefas(ids, mensagem) {
   const removidas = [];
   tarefas.forEach((t, i) => {
@@ -171,7 +171,7 @@ function removerTarefas(ids, mensagem) {
   toast.show();
 }
 
-// ---------- Eventos ----------
+
 formTarefa.addEventListener("submit", e => {
   e.preventDefault();
   const titulo = document.getElementById("titulo").value.trim();
@@ -242,7 +242,7 @@ lista.addEventListener("click", e => {
   }
 });
 
-// Adicionar subtarefa (o evento "submit" também sobe até a lista)
+
 lista.addEventListener("submit", e => {
   const form = e.target.closest("[data-form='sub']");
   if (!form) return;
@@ -257,7 +257,7 @@ lista.addEventListener("submit", e => {
   salvar();
   mostrar();
 
-  // devolve o foco para o campo, para adicionar várias seguidas
+
   const campo = document.querySelector(`form[data-form="sub"][data-id="${id}"] input`);
   if (campo) campo.focus();
 });

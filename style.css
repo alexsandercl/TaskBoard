@@ -1,4 +1,4 @@
-/* Base */
+
 :root {
   --bs-body-font-family: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
   --bs-border-radius: .25rem;
@@ -8,20 +8,19 @@
 
 body { background-color: var(--bs-tertiary-bg); }
 
-/* Tarefa concluída */
+
 .tarefa-concluida .titulo { text-decoration: line-through; opacity: .6; }
 
-/* Cor da lateral conforme a prioridade */
+
 .borda-1 { border-left: 5px solid #198754; }
 .borda-2 { border-left: 5px solid #ffc107; }
 .borda-3 { border-left: 5px solid #dc3545; }
 
-/* Detalhes (observações e subtarefas) */
+
 .detalhes { margin-top: 1rem; margin-left: 1.5rem; }
 .obs { white-space: pre-wrap; }
 .sub-feita .sub-texto { text-decoration: line-through; opacity: .6; }
 
-/* Cor principal do sistema */
 .btn-primary {
   --bs-btn-bg: var(--cor-principal);
   --bs-btn-border-color: var(--cor-principal);
@@ -47,7 +46,7 @@ body { background-color: var(--bs-tertiary-bg); }
   box-shadow: 0 0 0 .2rem rgba(47, 111, 94, .2);
 }
 
-/* Etiquetas discretas (categoria, prioridade, prazo, subtarefas) */
+
 .badge { font-weight: 500; }
 .etiqueta {
   background: transparent;
@@ -55,7 +54,6 @@ body { background-color: var(--bs-tertiary-bg); }
   color: var(--bs-secondary-color);
 }
 
-/* Layout e cores */
 .container { max-width: 1140px; }
 [data-bs-theme="light"] body { background-color: #eef2f1; }
 
