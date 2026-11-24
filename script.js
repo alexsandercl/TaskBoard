@@ -7,6 +7,9 @@ const NOMES_PRIORIDADE = { 1: "Baixa", 2: "Média", 3: "Alta" };
 const formTarefa = document.getElementById("form-tarefa");
 const formEditar = document.getElementById("form-editar");
 const lista = document.getElementById("lista");
+const busca = document.getElementById("busca");
+const filtroCategoria = document.getElementById("filtro-categoria");
+const filtroStatus = document.getElementById("filtro-status");
 const modalEditar = new bootstrap.Modal(document.getElementById("modal-editar"));
 
 // ---------- Funções ----------
@@ -14,22 +17,56 @@ function salvar() {
   localStorage.setItem("tarefas", JSON.stringify(tarefas));
 }
 
+function hoje() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function estaAtrasada(t) {
+  return !t.feita && t.prazo && t.prazo < hoje();
+}
+
 function formatarData(data) {
   const [a, m, d] = data.split("-");
   return `${d}/${m}/${a}`;
 }
 
+function filtrar() {
+  const texto = busca.value.toLowerCase();
+  return tarefas
+    .filter(t => t.titulo.toLowerCase().includes(texto))
+    .filter(t => !filtroCategoria.value || t.categoria === filtroCategoria.value)
+    .filter(t => {
+      if (filtroStatus.value === "pendentes") return !t.feita;
+      if (filtroStatus.value === "concluidas") return t.feita;
+      return true;
+    })
+    // pendentes primeiro, depois maior prioridade
+    .sort((a, b) => a.feita - b.feita || b.prioridade - a.prioridade);
+}
+
+function atualizarResumo() {
+  const total = tarefas.length;
+  const feitas = tarefas.filter(t => t.feita).length;
+  const pct = total ? Math.round((feitas / total) * 100) : 0;
+
+  document.getElementById("total").textContent = total;
+  document.getElementById("pendentes").textContent = total - feitas;
+  document.getElementById("atrasadas").textContent = tarefas.filter(estaAtrasada).length;
+
+  const barra = document.getElementById("progresso");
+  barra.style.width = pct + "%";
+  barra.textContent = pct + "%";
+}
+
 function mostrar() {
   lista.innerHTML = "";
+  const visiveis = filtrar();
 
-  if (tarefas.length === 0) {
+  if (visiveis.length === 0) {
     lista.innerHTML = '<li class="list-group-item text-muted">Nenhuma tarefa encontrada.</li>';
   }
 
-  // pendentes primeiro, depois maior prioridade
-  const ordenadas = [...tarefas].sort((a, b) => a.feita - b.feita || b.prioridade - a.prioridade);
-
-  ordenadas.forEach(t => {
+  visiveis.forEach(t => {
     const li = document.createElement("li");
     li.className = `list-group-item borda-${t.prioridade}` + (t.feita ? " tarefa-concluida" : "");
     li.innerHTML = `
@@ -40,7 +77,7 @@ function mostrar() {
           <div class="mt-1">
             <span class="badge text-bg-secondary">${t.categoria}</span>
             <span class="badge text-bg-light border">Prioridade ${NOMES_PRIORIDADE[t.prioridade]}</span>
-            ${t.prazo ? `<span class="badge text-bg-info">Prazo: ${formatarData(t.prazo)}</span>` : ""}
+            ${t.prazo ? `<span class="badge ${estaAtrasada(t) ? "text-bg-danger" : "text-bg-info"}">${estaAtrasada(t) ? "Atrasada: " : "Prazo: "}${formatarData(t.prazo)}</span>` : ""}
           </div>
         </div>
         <div class="btn-group btn-group-sm">
@@ -52,6 +89,8 @@ function mostrar() {
     li.querySelector(".titulo").textContent = t.titulo;
     lista.appendChild(li);
   });
+
+  atualizarResumo();
 }
 
 // ---------- Eventos ----------
@@ -113,6 +152,8 @@ formEditar.addEventListener("submit", e => {
   modalEditar.hide();
 });
 
+[busca, filtroCategoria, filtroStatus].forEach(el => el.addEventListener("input", mostrar));
+
 document.getElementById("btn-limpar").addEventListener("click", () => {
   if (tarefas.some(t => t.feita) && confirm("Remover todas as tarefas concluídas?")) {
     tarefas = tarefas.filter(t => !t.feita);
@@ -120,5 +161,18 @@ document.getElementById("btn-limpar").addEventListener("click", () => {
     mostrar();
   }
 });
+
+// Modo escuro (salvo no navegador)
+const btnTema = document.getElementById("btn-tema");
+function aplicarTema(tema) {
+  document.documentElement.setAttribute("data-bs-theme", tema);
+  btnTema.textContent = tema === "dark" ? "Modo claro" : "Modo escuro";
+  localStorage.setItem("tema", tema);
+}
+btnTema.addEventListener("click", () => {
+  const atual = document.documentElement.getAttribute("data-bs-theme");
+  aplicarTema(atual === "dark" ? "light" : "dark");
+});
+aplicarTema(localStorage.getItem("tema") || "light");
 
 mostrar();

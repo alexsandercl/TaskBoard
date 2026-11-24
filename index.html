@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-bs-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,10 +12,36 @@
   <nav class="navbar border-bottom">
     <div class="container">
       <span class="navbar-brand fw-bold mb-0 h1">TaskBoard</span>
+      <button id="btn-tema" class="btn btn-sm btn-outline-secondary">Modo escuro</button>
     </div>
   </nav>
 
   <main class="container py-4">
+
+    <!-- Resumo -->
+    <section class="row g-3 mb-4">
+      <div class="col-4">
+        <div class="card text-center"><div class="card-body py-3">
+          <div class="fs-3 fw-bold" id="total">0</div><small class="text-muted">Total</small>
+        </div></div>
+      </div>
+      <div class="col-4">
+        <div class="card text-center"><div class="card-body py-3">
+          <div class="fs-3 fw-bold" id="pendentes">0</div><small class="text-muted">Pendentes</small>
+        </div></div>
+      </div>
+      <div class="col-4">
+        <div class="card text-center"><div class="card-body py-3">
+          <div class="fs-3 fw-bold" id="atrasadas">0</div><small class="text-muted">Atrasadas</small>
+        </div></div>
+      </div>
+      <div class="col-12">
+        <div class="progress" style="height: 22px;">
+          <div id="progresso" class="progress-bar bg-success" style="width: 0%">0%</div>
+        </div>
+      </div>
+    </section>
+
     <div class="row g-4">
 
       <!-- Formulário -->
@@ -56,7 +82,29 @@
 
       <!-- Lista -->
       <section class="col-lg-8">
+        <div class="row g-2 mb-3">
+          <div class="col-md-6">
+            <input type="search" id="busca" class="form-control" placeholder="Buscar tarefa...">
+          </div>
+          <div class="col-6 col-md-3">
+            <select id="filtro-categoria" class="form-select">
+              <option value="">Todas as categorias</option>
+              <option>Estudos</option>
+              <option>Trabalho</option>
+              <option>Pessoal</option>
+            </select>
+          </div>
+          <div class="col-6 col-md-3">
+            <select id="filtro-status" class="form-select">
+              <option value="todas">Todas</option>
+              <option value="pendentes">Pendentes</option>
+              <option value="concluidas">Concluídas</option>
+            </select>
+          </div>
+        </div>
+
         <ul id="lista" class="list-group mb-3"></ul>
+
         <button id="btn-limpar" class="btn btn-sm btn-outline-danger">Limpar concluídas</button>
       </section>
     </div>
