@@ -1,3 +1,11 @@
+/* Base */
+:root {
+  --bs-body-font-family: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --bs-border-radius: .25rem;
+  --bs-border-radius-lg: .3rem;
+  --cor-principal: #2f6f5e;
+}
+
 body { background-color: var(--bs-tertiary-bg); }
 
 /* Tarefa concluída */
@@ -12,3 +20,50 @@ body { background-color: var(--bs-tertiary-bg); }
 .detalhes { margin-top: 1rem; margin-left: 1.5rem; }
 .obs { white-space: pre-wrap; }
 .sub-feita .sub-texto { text-decoration: line-through; opacity: .6; }
+
+/* Cor principal do sistema */
+.btn-primary {
+  --bs-btn-bg: var(--cor-principal);
+  --bs-btn-border-color: var(--cor-principal);
+  --bs-btn-hover-bg: #275a4d;
+  --bs-btn-hover-border-color: #275a4d;
+  --bs-btn-active-bg: #214d42;
+  --bs-btn-active-border-color: #214d42;
+  --bs-btn-disabled-bg: var(--cor-principal);
+  --bs-btn-disabled-border-color: var(--cor-principal);
+}
+.btn-outline-primary {
+  --bs-btn-color: var(--cor-principal);
+  --bs-btn-border-color: var(--cor-principal);
+  --bs-btn-hover-bg: var(--cor-principal);
+  --bs-btn-hover-border-color: var(--cor-principal);
+  --bs-btn-active-bg: var(--cor-principal);
+  --bs-btn-active-border-color: var(--cor-principal);
+}
+.progress-bar { background-color: var(--cor-principal); }
+.form-check-input:checked { background-color: var(--cor-principal); border-color: var(--cor-principal); }
+.form-control:focus, .form-select:focus {
+  border-color: var(--cor-principal);
+  box-shadow: 0 0 0 .2rem rgba(47, 111, 94, .2);
+}
+
+/* Etiquetas discretas (categoria, prioridade, prazo, subtarefas) */
+.badge { font-weight: 500; }
+.etiqueta {
+  background: transparent;
+  border: 1px solid var(--bs-border-color);
+  color: var(--bs-secondary-color);
+}
+
+/* Layout e cores */
+.container { max-width: 1140px; }
+[data-bs-theme="light"] body { background-color: #eef2f1; }
+
+.barra-topo { background-color: var(--cor-principal); }
+.cabecalho { background-color: var(--cor-principal); color: #fff; border-bottom: 0; }
+.cor-principal { color: var(--cor-principal); }
+.sticky-form { position: sticky; top: 1rem; }
+
+/* Ajustes do modo escuro */
+[data-bs-theme="dark"] .cor-principal { color: #6fb59f; }
+[data-bs-theme="dark"] .btn-outline-primary { --bs-btn-color: #6fb59f; }

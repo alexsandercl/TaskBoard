@@ -86,7 +86,7 @@ function atualizarResumo() {
   // Pendentes por categoria
   document.getElementById("por-categoria").innerHTML = CATEGORIAS.map(c => {
     const n = tarefas.filter(t => t.categoria === c && !t.feita).length;
-    return `<span class="badge text-bg-secondary">${c}: ${n} pendente(s)</span>`;
+    return `<span class="badge etiqueta">${c}: ${n} pendente(s)</span>`;
   }).join("");
 }
 
@@ -118,7 +118,10 @@ function mostrar() {
   const visiveis = filtrar();
 
   if (visiveis.length === 0) {
-    lista.innerHTML = '<li class="list-group-item text-muted">Nenhuma tarefa encontrada.</li>';
+    const msg = tarefas.length === 0
+      ? "Nenhuma tarefa ainda. Cadastre a primeira no formulário."
+      : "Nenhuma tarefa encontrada com esses filtros.";
+    lista.innerHTML = `<li class="list-group-item text-muted">${msg}</li>`;
   }
 
   visiveis.forEach(t => {
@@ -133,10 +136,10 @@ function mostrar() {
           <input class="form-check-input" type="checkbox" data-acao="alternar" data-id="${t.id}" ${t.feita ? "checked" : ""}>
           <span class="titulo fw-semibold">${esc(t.titulo)}</span>
           <div class="mt-1">
-            <span class="badge text-bg-secondary">${t.categoria}</span>
-            <span class="badge text-bg-light border">Prioridade ${NOMES_PRIORIDADE[t.prioridade]}</span>
-            ${t.prazo ? `<span class="badge ${estaAtrasada(t) ? "text-bg-danger" : "text-bg-info"}">${estaAtrasada(t) ? "Atrasada: " : "Prazo: "}${formatarData(t.prazo)}</span>` : ""}
-            ${t.subtarefas.length ? `<span class="badge text-bg-light border">Subtarefas ${subFeitas}/${t.subtarefas.length}</span>` : ""}
+            <span class="badge etiqueta">${t.categoria}</span>
+            <span class="badge etiqueta">Prioridade ${NOMES_PRIORIDADE[t.prioridade]}</span>
+            ${t.prazo ? `<span class="badge ${estaAtrasada(t) ? "text-bg-danger" : "etiqueta"}">${estaAtrasada(t) ? "Atrasada: " : "Prazo: "}${formatarData(t.prazo)}</span>` : ""}
+            ${t.subtarefas.length ? `<span class="badge etiqueta">Subtarefas ${subFeitas}/${t.subtarefas.length}</span>` : ""}
           </div>
         </div>
         <div class="btn-group btn-group-sm flex-shrink-0">
