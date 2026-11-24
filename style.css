@@ -1,2 +1,7 @@
-body { background: #f2f4f7; }
-.concluida span { text-decoration: line-through; color: #888; }
+body { background-color: var(--bs-tertiary-bg); }
+
+.tarefa-concluida .titulo { text-decoration: line-through; opacity: .6; }
+
+.borda-1 { border-left: 5px solid #198754; }
+.borda-2 { border-left: 5px solid #ffc107; }
+.borda-3 { border-left: 5px solid #dc3545; }
