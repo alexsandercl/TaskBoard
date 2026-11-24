@@ -1,7 +1,14 @@
 body { background-color: var(--bs-tertiary-bg); }
 
+/* Tarefa concluída */
 .tarefa-concluida .titulo { text-decoration: line-through; opacity: .6; }
 
+/* Cor da lateral conforme a prioridade */
 .borda-1 { border-left: 5px solid #198754; }
 .borda-2 { border-left: 5px solid #ffc107; }
 .borda-3 { border-left: 5px solid #dc3545; }
+
+/* Detalhes (observações e subtarefas) */
+.detalhes { margin-top: 1rem; margin-left: 1.5rem; }
+.obs { white-space: pre-wrap; }
+.sub-feita .sub-texto { text-decoration: line-through; opacity: .6; }
